@@ -12,9 +12,9 @@ class InitController {
   InitController({required Ref ref}) : _ref = ref;
 
   FutureVoid initUserAndToken() async {
-    await _ref.read(sharedPrefsControllerPovider).getRole().then((value) {
-      _ref.read(currentRoleProvider.notifier).update((state) => value);
-    });
+    // await _ref.read(sharedPrefsControllerPovider).getRole().then((value) {
+    //   _ref.read(currentRoleProvider.notifier).update((state) => value);
+    // });
 
     await _ref.read(sharedPrefsControllerPovider).getCookie().then((value) {
       _ref.read(authTokenProvider.notifier).update((state) => value);

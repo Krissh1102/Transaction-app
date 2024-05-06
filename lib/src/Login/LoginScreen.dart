@@ -264,28 +264,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   const SizedBox(
                     height: 25,
                   ),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 40,
-                    child: OutlinedButton.icon(
-                        style: OutlinedButton.styleFrom(
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8))),
-                        ),
-                        onPressed: () {},
-                        icon: const Image(
-                          image: AssetImage(
-                              'assets/images/NewUserScreen/Apple.png'),
-                        ),
-                        label: const Text(
-                          'Continue with Apple',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        )),
-                  ),
+                  // SizedBox(
+                  //   width: double.infinity,
+                  //   height: 40,
+                  //   child: OutlinedButton.icon(
+                  //       style: OutlinedButton.styleFrom(
+                  //         shape: const RoundedRectangleBorder(
+                  //             borderRadius:
+                  //                 BorderRadius.all(Radius.circular(8))),
+                  //       ),
+                  //       onPressed: () {},
+                  //       icon: const Image(
+                  //         image: AssetImage(
+                  //             'assets/images/NewUserScreen/Apple.png'),
+                  //       ),
+                  //       label: const Text(
+                  //         'Continue with Apple',
+                  //         style: TextStyle(
+                  //           fontSize: 16,
+                  //           fontWeight: FontWeight.w600,
+                  //         ),
+                  //       )),
+                  // ),
                   const SizedBox(
                     height: 60,
                   ),

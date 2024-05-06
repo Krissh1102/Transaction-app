@@ -10,6 +10,8 @@ import 'package:get/get.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  static const routePath = "/homescreen";
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -29,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
         leading: GestureDetector(
           onTap: () {},
           child: CircleAvatar(
+            backgroundColor: Colors.transparent,
             child: Image.asset('assets/images/avatar.png'),
           ),
         ),

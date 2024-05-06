@@ -4,6 +4,7 @@ import 'package:assignment3/Authentication/controller/auth_controller.dart';
 import 'package:assignment3/res/endpoints.dart';
 
 import 'package:assignment3/src/HomeScreen.dart';
+import 'package:assignment3/src/Login/NewUserScreen.dart';
 import 'package:assignment3/src/Login/OTPscreen.dart';
 import 'package:assignment3/utils/snackbar_service.dart';
 
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
@@ -28,12 +30,13 @@ class SignUpScreen extends ConsumerStatefulWidget {
 class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   late bool _isObsurce;
 
-  final emailController = TextEditingController();
-  final nameController = TextEditingController();
-  final phoneNoController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmPassController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneNoController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPassController = TextEditingController();
   String result = '';
+
   // ignore: unused_field
   bool _isSigningIn = false;
   @override
@@ -109,7 +112,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pop(context);
+                      context.go(NewUserScreen.routePath);
                     },
                     child: Container(
                         width: 30,
@@ -348,7 +351,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                     .register(
                                         email: emailController.text
                                             .trim()
-                                            .toString(),
+                                            .toString()
+                                            .toLowerCase(),
                                         phone: phoneNoController.text
                                             .trim()
                                             .toString(),
@@ -378,9 +382,86 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                 letterSpacing: -0.24,
                               ),
                             ))
-                        : const CircularProgressIndicator(
-                            color: Color.fromRGBO(150, 91, 165, 1),
+                        : const Center(
+                            child: SizedBox(
+                              height: 40,
+                              width: 40,
+                              child: CircularProgressIndicator(
+                                color: Color.fromRGBO(150, 91, 165, 1),
+                              ),
+                            ),
                           ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 154,
+                        decoration: const ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              width: 1,
+                              strokeAlign: BorderSide.strokeAlignCenter,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Or',
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            height: 0,
+                            letterSpacing: -0.24,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 154,
+                        decoration: const ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              width: 1,
+                              strokeAlign: BorderSide.strokeAlignCenter,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 40,
+                    child: OutlinedButton.icon(
+                        style: OutlinedButton.styleFrom(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8))),
+                        ),
+                        onPressed: () async {
+                          setState(() {});
+                        },
+                        icon: const Image(
+                          image: AssetImage(
+                              'assets/images/NewUserScreen/Google.png'),
+                        ),
+                        label: const Text(
+                          'Continue with Google',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        )),
+                  ),
+                  const SizedBox(
+                    height: 25,
                   ),
                 ],
               ),

@@ -1,3 +1,4 @@
+import 'package:assignment3/Authentication/controller/auth_controller.dart';
 import 'package:assignment3/src//Login/NewUserScreen.dart';
 import 'package:assignment3/theme/ElevatedButtonTheme.dart';
 import 'package:assignment3/theme/FloatingActionButtonTheme.dart';

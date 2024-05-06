@@ -11,8 +11,7 @@ import 'package:assignment3/res/base.dart';
 class Endpoints {
   static const _base = BasePaths.baseUrl;
 
-  static const signupSendOTP =
-      "https://influencerapi.vercel.app/api/v1/auth/signup";
+  static const signupSendOTP = "$_base/signup";
 
   static const sverifyotpsignup = "$_base/verify-otp";
 

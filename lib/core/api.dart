@@ -7,11 +7,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:http/http.dart';
 
+import '../Authentication/controller/providers/common_providers.dart';
 import 'core.dart';
 
 /// Watch apiProvider to make sure to have the latest authToken passed.
 
-final apiProvider = StateProvider((ref) {});
+final apiProvider = StateProvider((ref) {
+  final authToken = ref.watch(authTokenProvider);
+  return API(authToken: authToken);
+});
 
 /// Contains common methods required for client side APIs [GET, POST, PUT, DELETE].
 /// Pass the [url] from endpoints using [Endpoints] class.

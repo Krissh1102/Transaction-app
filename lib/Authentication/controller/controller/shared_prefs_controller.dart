@@ -29,9 +29,9 @@ class SharedPrefsController {
     _repo.setCurrentUser(user);
   }
 
-  Future<String?> getRole() async {
-    return _repo.getRole();
-  }
+  // Future<String?> getRole() async {
+  //   return _repo.getRole();
+  // }
 
   FutureVoid clear() async {
     return _repo.clear();

@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 
 class NewUserScreen extends StatefulWidget {
   const NewUserScreen({super.key});
+  static const routePath = "/newuser";
 
   @override
   State<NewUserScreen> createState() => _NewUserScreenState();

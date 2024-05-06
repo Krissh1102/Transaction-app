@@ -1,3 +1,6 @@
+import 'package:assignment3/src/HomeScreen.dart';
+import 'package:assignment3/src/Login/NewUserScreen.dart';
+import 'package:assignment3/src/Login/OTPlogin.dart';
 import 'package:assignment3/src/Login/SignUpScreen.dart';
 import 'package:assignment3/src/Login/otpScreen.dart';
 import 'package:assignment3/src/Login/SplashScreen.dart';
@@ -17,7 +20,40 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: SignUpScreen.routePath,
       builder: (BuildContext context, GoRouterState state) {
-        return SignUpScreen();
+        return const SignUpScreen();
+      },
+    ),
+    GoRoute(
+      path: NewUserScreen.routePath,
+      builder: (BuildContext context, GoRouterState state) {
+        return const SignUpScreen();
+      },
+    ),
+
+    GoRoute(
+      path: OTPLogin.routePath,
+      builder: (context, state) {
+        if (state.extra != null && state.extra is Map<String, String>) {
+          Map<String, String> routeParams = state.extra as Map<String, String>;
+          return OTPLogin(
+            email:
+                routeParams['email'] ?? '', // provide a default value if null
+
+            testingotp: routeParams['testingotp'] ?? '',
+          );
+        } else {
+          // Handle the case where state.extra is not as expected
+          // You can throw an error, navigate to an error page, or handle it accordingly
+          print('Unexpected state.extra type: ${state.extra.runtimeType}');
+          return Container(); // Replace with your error handling logic
+        }
+      },
+    ),
+
+    GoRoute(
+      path: HomeScreen.routePath,
+      builder: (BuildContext context, GoRouterState state) {
+        return const HomeScreen();
       },
     ),
 

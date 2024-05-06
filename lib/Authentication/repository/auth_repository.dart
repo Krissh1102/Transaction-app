@@ -32,9 +32,9 @@ class AuthRepo {
 
     print('API Object: $_api');
 
-    final result = await _api?.postRequest(
+    final result = await _api.postRequest(
         url: Endpoints.signupSendOTP, body: body, requireAuth: false);
-    return result?.fold(
+    return result.fold(
       (Failure failure) {
         log(
           failure.message,
@@ -51,7 +51,7 @@ class AuthRepo {
     required String email,
   }) async {
     final body = {
-      "phoneNumber": email,
+      "email": email,
       "otp": otp,
     };
 
@@ -78,11 +78,7 @@ class AuthRepo {
 
     final result = await _api.postRequest(
         url: Endpoints.login, body: body, requireAuth: false);
-    if (result == null) {
-      // Handle null response (e.g., log error, return specific error object)
-      print('API call failed! No response received.');
-      return null;
-    }
+
     return result.fold(
       (Failure failure) {
         log(
@@ -95,13 +91,12 @@ class AuthRepo {
     );
   }
 
-  Future<Response?> verifyOtpSignin(
-      {required String otp,
-      required String phone,
-      required String role}) async {
+  Future<Response?> verifyOtpSignin({
+    required String otp,
+    required String email,
+  }) async {
     final body = {
-      "phoneNumber": phone,
-      "role": role,
+      "email": email,
       "otp": otp,
     };
 
@@ -122,80 +117,6 @@ class AuthRepo {
   //Future<void> signOut() async {}
 
   // Email verfication-------------------------
-
-  Future<Response?> registerEmail(
-      {required String email,
-      required String role,
-      required String password}) async {
-    final body = {
-      "email": email,
-      "password": password,
-      "role": role,
-    };
-
-    // final result = await _api.postRequest(
-    //     url: Endpoints.signUpsemail, body: body, requireAuth: false);
-    // return result.fold(
-    //   (Failure failure) {
-    //     log(
-    //       failure.message,
-    //       name: LogLabel.auth,
-    //     );
-    //     return null;
-    //   },
-    //   (Response response) => response,
-    // );
-  }
-
-  Future<Response?> signInEmail(
-      {required String email,
-      required String role,
-      required String password}) async {
-    final body = {
-      "email": email,
-      "password": password,
-      "role": role,
-    };
-
-    // final result = await _api.postRequest(
-    //     url: Endpoints.signInemail, body: body, requireAuth: false);
-    // return result.fold(
-    //   (Failure failure) {
-    //     log(
-    //       failure.message,
-    //       name: LogLabel.auth,
-    //     );
-    //     return null;
-    //   },
-    //   (Response response) => response,
-    // );
-  }
-
-  Future<Response?> verifyOtpEmail(
-      {required String otp,
-      required String email,
-      required String password,
-      required String role}) async {
-    final body = {
-      "email": email,
-      "password": password,
-      "role": role,
-      "otp": otp,
-    };
-
-    // final result = await _api.postRequest(
-    //     url: Endpoints.signUpEmailOTP, body: body, requireAuth: false);
-    // return result.fold(
-    //   (Failure failure) {
-    //     log(
-    //       failure.message,
-    //       name: LogLabel.auth,
-    //     );
-    //     return null;
-    //   },
-    //   (Response response) => response,
-    // );
-  }
 
   Future<Response?> forgetPass({
     required String email,

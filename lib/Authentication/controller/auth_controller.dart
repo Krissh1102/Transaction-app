@@ -6,6 +6,9 @@ import 'package:assignment3/Authentication/controller/controller/shared_prefs_co
 import 'package:assignment3/Authentication/controller/providers/common_providers.dart';
 import 'package:assignment3/Authentication/repository/auth_repository.dart';
 import 'package:assignment3/res/strings.dart';
+import 'package:assignment3/src/HomeScreen.dart';
+import 'package:assignment3/src/Login/OTPlogin.dart';
+import 'package:assignment3/src/Login/OTPscreen.dart';
 import 'package:assignment3/utils/snackbar_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,18 +49,18 @@ class AuthController extends StateNotifier<bool> {
           final data = jsonDecode(response.body);
           final status = data['success'];
           if (status == true) {
-            // SnackBarService.showSnackBar(
-            //   context: context,
-            //   message: 'correct',
-            // );
+            SnackBarService.showSnackBar(
+              context: context,
+              message: data['message'],
+            );
 
-            // context.push(
-            //   OTPVerify.routePath,
-            //   extra: {
-            //     'phoneNumber': phone,
-            //     'testingotp': data['data']['otp'].toString(),
-            //   },
-            // );
+            context.push(
+              OTPscreen.routePath,
+              extra: {
+                'email': email,
+                'testingotp': data['data']['otp'].toString(),
+              },
+            );
             print('$response');
           } else {
             // SnackBarService.showSnackBar(
@@ -81,8 +84,6 @@ class AuthController extends StateNotifier<bool> {
       // Reset state after delay
       await Future.delayed(const Duration(seconds: 3));
       state = false;
-    } else {
-      print('error');
     }
   }
 
@@ -101,11 +102,11 @@ class AuthController extends StateNotifier<bool> {
             if (status == true) {
               SnackBarService.showSnackBar(
                 context: context,
-                message: '',
+                message: data['message'],
               );
               print('token: $token');
 
-              // context.go(SignupName.routePath);
+              context.go(HomeScreen.routePath);
               state = false;
               // final user = data['name'];
               //   if (data['name'] != "guest") {
@@ -168,14 +169,14 @@ class AuthController extends StateNotifier<bool> {
                 message: data['message'],
               );
 
-              // context.push(
-              //   OTPVerifySignin.routePath,
-              //   extra: {
-              //     'phoneNumber': phone,
-              //     'role': role,
-              //     'testingotp': data['data']['otp'].toString(),
-              //   },
-              // );
+              context.push(
+                OTPLogin.routePath,
+                extra: {
+                  'email': email,
+
+                  // 'testingotp': data['data']['otp'].toString(),
+                },
+              );
               print('$response');
             } else {
               SnackBarService.showSnackBar(
@@ -197,13 +198,15 @@ class AuthController extends StateNotifier<bool> {
 
   Future<void> verifyOtpSignin(
       {required String otp,
-      required String phone,
-      required String role,
+      required String email,
       required BuildContext context}) async {
     if (!state) {
       state = true;
       _authRepo
-          .verifyOtpSignin(phone: phone, otp: otp, role: role)
+          .verifyOtpSignin(
+        email: email,
+        otp: otp,
+      )
           .then((response) {
         if (response != null) {
           try {
@@ -217,7 +220,7 @@ class AuthController extends StateNotifier<bool> {
               );
               print('token: $token');
 
-              // context.go(HomeScreen.routePath);
+              //context.go(HomeScreen.routePath);
               state = false;
               // final user = data['name'];
               //   if (data['name'] != "guest") {
@@ -238,14 +241,12 @@ class AuthController extends StateNotifier<bool> {
                 context: context,
                 message: data['message'].toString(),
               );
-              // context.go(HomeScreen.routePath);
+              context.go(HomeScreen.routePath);
               print('token: $token');
 
               _ref.read(sharedPrefsControllerPovider).setCookie(cookie: token);
               _ref.read(authTokenProvider.notifier).update((state) => token);
 
-              _ref.read(currentRoleProvider.notifier).update((state) => role);
-
               state = false;
             }
           } catch (e) {
@@ -257,115 +258,6 @@ class AuthController extends StateNotifier<bool> {
 
       await Future.delayed(const Duration(seconds: 5));
       state = false;
-    }
-  }
-
-// Email verification
-
-  Future<void> registerEmail(
-      {required String email,
-      required String role,
-      required String password,
-      required BuildContext context}) async {
-    if (!state) {
-      state = true;
-      _authRepo
-          .registerEmail(
-        email: email,
-        password: password,
-        role: role,
-      )
-          .then((response) {
-        if (response != null) {
-          try {
-            final data = jsonDecode(response.body);
-            final status = data["success"];
-            if (status == true) {
-              SnackBarService.showSnackBar(
-                context: context,
-                message: data['message'],
-              );
-
-              // context.push(OtpVerifyEmail.routePath, extra: {
-              //   'email': email,
-              //   "password": password,
-              //   'role': role,
-              //   'testingotp': data['data']['otp'].toString(),
-              // });
-              state = false;
-            } else {
-              SnackBarService.showSnackBar(
-                context: context,
-                message: data['message'],
-              );
-              state = false;
-            }
-          } catch (e) {
-            print('$e');
-            log(FailureMessage.jsonParsingFailed, name: LogLabel.auth);
-          }
-        }
-      });
-      await Future.delayed(const Duration(seconds: 5));
-      state = false;
-    }
-  }
-
-  Future<void> verifyOtpEmail(
-      {required String otp,
-      required String email,
-      required String password,
-      required String role,
-      required BuildContext context}) async {
-    if (!state) {
-      state = true;
-      _authRepo
-          .verifyOtpEmail(
-              email: email, password: password, otp: otp, role: role)
-          .then((response) {
-        if (response != null) {
-          try {
-            final data = jsonDecode(response.body);
-            final status = data["success"];
-            final token = data['data']['token'].toString();
-            if (status == true) {
-              SnackBarService.showSnackBar(
-                context: context,
-                message: data['message'].toString(),
-              );
-              _ref.read(sharedPrefsControllerPovider).setCookie(cookie: token);
-              _ref.read(authTokenProvider.notifier).update((state) => token);
-
-              // final user = data['name'];
-
-              // context.go(SignupName.routePath);
-              state = false;
-            } else {
-              // the user does not have a name
-              // navigate to the screen where a name can be entered.
-              SnackBarService.showSnackBar(
-                context: context,
-                message: data['message'].toString(),
-              );
-              state = false;
-            }
-          } catch (e) {
-            log(FailureMessage.jsonParsingFailed, name: LogLabel.auth);
-            state = false;
-          }
-          if (response.statusCode == 200) {
-            //successfully sent
-            print('API response: ${response.body}');
-          } else {
-            //failed
-            print('Failed to post data. Status code: ${response.statusCode}');
-            print('Response body: ${response.body}');
-          }
-        }
-      });
-
-      // await Future.delayed(const Duration(seconds: 3));
-      //  state = false;
     }
   }
 
@@ -393,54 +285,6 @@ class AuthController extends StateNotifier<bool> {
 
               // context.push(ResetPass.routePath, extra: {
               //   'email': email,
-              //   'role': role,
-              // });
-              state = false;
-            } else {
-              SnackBarService.showSnackBar(
-                context: context,
-                message: data['message'],
-              );
-              state = false;
-            }
-          } catch (e) {
-            print('$e');
-            log(FailureMessage.jsonParsingFailed, name: LogLabel.auth);
-          }
-        }
-      });
-      await Future.delayed(const Duration(seconds: 5));
-      state = false;
-    }
-  }
-
-  Future<void> signInEmail(
-      {required String email,
-      required String role,
-      required String password,
-      required BuildContext context}) async {
-    if (!state) {
-      state = true;
-      _authRepo
-          .signInEmail(
-        email: email,
-        password: password,
-        role: role,
-      )
-          .then((response) {
-        if (response != null) {
-          try {
-            final data = jsonDecode(response.body);
-            final status = data["success"];
-            if (status == true) {
-              SnackBarService.showSnackBar(
-                context: context,
-                message: data['message'],
-              );
-
-              // context.push(OtpVerifyEmail.routePath, extra: {
-              //   'email': email,
-              //   'password': password,
               //   'role': role,
               // });
               state = false;

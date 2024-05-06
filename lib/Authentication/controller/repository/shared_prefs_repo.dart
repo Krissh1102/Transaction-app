@@ -26,15 +26,15 @@ class SharedPrefsRepo {
     return cookie;
   }
 
-  Future<String?> getRole() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final role = prefs.getString(_currentRoleKey);
-    if (AppConfig.devMode) {
-      log("Reading role", name: LogLabel.sharedPrefs);
-      log("Data : $role", name: LogLabel.sharedPrefs);
-    }
-    return role;
-  }
+  // Future<String?> getRole() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final role = prefs.getString(_currentRoleKey);
+  //   if (AppConfig.devMode) {
+  //     log("Reading role", name: LogLabel.sharedPrefs);
+  //     log("Data : $role", name: LogLabel.sharedPrefs);
+  //   }
+  //   return role;
+  // }
 
   Future<User?> getCurrentUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

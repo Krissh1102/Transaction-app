@@ -7,23 +7,23 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 
-class OTPscreen extends ConsumerStatefulWidget {
-  const OTPscreen({
+class OTPLogin extends ConsumerStatefulWidget {
+  const OTPLogin({
     super.key,
     required this.email,
     required this.testingotp,
   });
 
-  static const routePath = "/otpverify";
+  static const routePath = "/otploginverify";
 
   final String email;
   final String testingotp;
 
   @override
-  ConsumerState<OTPscreen> createState() => _OTPscreenState();
+  ConsumerState<OTPLogin> createState() => _OTPLoginState();
 }
 
-class _OTPscreenState extends ConsumerState<OTPscreen> {
+class _OTPLoginState extends ConsumerState<OTPLogin> {
   final TextEditingController otpController = TextEditingController();
 
   @override
@@ -66,7 +66,7 @@ class _OTPscreenState extends ConsumerState<OTPscreen> {
                   height: 40,
                 ),
                 const Text(
-                  'Enter the OTP sent.',
+                  'Enter the OTP sent. (Login)',
                   style: TextStyle(),
                 ),
                 const SizedBox(
@@ -101,10 +101,12 @@ class _OTPscreenState extends ConsumerState<OTPscreen> {
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black),
                         onPressed: () {
-                          ref.read(authControllerProvider.notifier).verifyOtp(
-                              email: widget.email,
-                              otp: otpController.text.trim().toString(),
-                              context: context);
+                          ref
+                              .read(authControllerProvider.notifier)
+                              .verifyOtpSignin(
+                                  email: widget.email,
+                                  otp: otpController.text.trim().toString(),
+                                  context: context);
                         },
                         child: const Text('Next')))
               ],

@@ -3,6 +3,18 @@
         android:label="assignment3"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- <activity
+    android:name="io.flutter.embedding.android.FlutterActivity"
+    ...
+    android:launchMode="singleTop">
+    <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="flutterapp" />
+    </intent-filter>
+        </activity> -->
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
